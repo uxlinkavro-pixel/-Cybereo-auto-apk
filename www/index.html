@@ -1,0 +1,1475 @@
+```html
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>CYBEREO AUTO TOOLS — Meta + IG 2FA Suite (v4.0)</title>
+
+  <!-- Google Font: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+          boxShadow: {
+            soft: '0 4px 20px -2px rgba(15, 23, 42, 0.06)',
+            card: '0 2px 12px -1px rgba(15, 23, 42, 0.05)',
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+    /* Custom subtle scrollbar */
+    ::-webkit-scrollbar {
+      width: 4px;
+      height: 4px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(148, 163, 184, 0.4);
+      border-radius: 9999px;
+    }
+    /* Smooth view transitions */
+    .view-section {
+      animation: fadeSlide 0.2s ease-out;
+    }
+    @keyframes fadeSlide {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    /* Toast animation */
+    @keyframes toastIn {
+      from { opacity: 0; transform: translate(-50%, 16px); }
+      to { opacity: 1; transform: translate(-50%, 0); }
+    }
+    .toast-animate {
+      animation: toastIn 0.22s ease-out forwards;
+    }
+  </style>
+</head>
+<body class="bg-slate-100 dark:bg-slate-950 text-slate-800 dark:text-slate-100 min-h-screen antialiased selection:bg-teal-500/20">
+
+  <!-- Main Mobile-First Container (Full width on mobile, centered max-w-md on desktop) -->
+  <div id="app-shell" class="w-full max-w-md mx-auto min-h-screen bg-slate-50 dark:bg-slate-900 shadow-2xl relative flex flex-col pb-24 transition-colors duration-200">
+
+    <!-- ==================== TOP HEADER ==================== -->
+    <header class="sticky top-0 z-30 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200/70 dark:border-slate-800 px-4 py-3 flex items-center justify-between">
+      <!-- Left: App Logo + Title -->
+      <div class="flex items-center gap-3 cursor-pointer" onclick="switchTab('home')">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-teal-500 via-cyan-600 to-slate-900 p-0.5 shadow-md flex-shrink-0">
+          <div class="w-full h-full bg-slate-900 rounded-[10px] flex items-center justify-center">
+            <!-- Custom Automation Gear/Bolt SVG Logo -->
+            <svg class="w-6 h-6 text-teal-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+            </svg>
+          </div>
+        </div>
+        <div class="leading-tight">
+          <h1 class="text-[15px] font-extrabold tracking-tight text-slate-900 dark:text-white">CYBEREO AUTO TOOLS</h1>
+          <p class="text-[11px] font-semibold text-teal-600 dark:text-teal-400">Meta + IG 2FA Suite (v4.0)</p>
+        </div>
+      </div>
+
+      <!-- Right: Dark Mode Toggle & EN/BN Language Toggle -->
+      <div class="flex items-center gap-2">
+        <button id="theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle Theme"
+          class="w-9 h-9 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-teal-600 dark:text-amber-400 flex items-center justify-center transition active:scale-95">
+          <!-- Moon Icon (Light Mode) -->
+          <svg id="icon-moon" class="w-5 h-5 block dark:hidden" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+          <!-- Sun Icon (Dark Mode) -->
+          <svg id="icon-sun" class="w-5 h-5 hidden dark:block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>
+          </svg>
+        </button>
+
+        <button id="lang-toggle-btn" onclick="toggleLanguage()"
+          class="h-9 px-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs font-bold text-teal-700 dark:text-teal-300 shadow-sm hover:bg-slate-50 dark:hover:bg-slate-700 transition active:scale-95">
+          EN
+        </button>
+      </div>
+    </header>
+
+    <!-- ==================== MAIN CONTENT AREA ==================== -->
+    <main class="flex-1 px-4 pt-4 space-y-4 overflow-x-hidden">
+
+      <!-- ==================== TAB 1: HOME DASHBOARD ==================== -->
+      <section id="view-home" class="view-section space-y-4">
+
+        <!-- User Info Card -->
+        <div class="bg-white dark:bg-slate-800/90 rounded-2xl p-3.5 border border-slate-200/70 dark:border-slate-700/70 shadow-card flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div class="w-11 h-11 rounded-full bg-gradient-to-br from-teal-600 to-emerald-700 text-white font-bold text-lg flex items-center justify-center shadow-inner">
+              Z
+            </div>
+            <div>
+              <h2 class="text-sm font-bold text-slate-900 dark:text-white leading-snug" data-i18n="greeting">Hi, Md Zahidul</h2>
+              <span class="inline-flex items-center px-2 py-0.5 mt-0.5 rounded-md text-[10px] font-bold tracking-wider bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300">
+                ADMIN
+              </span>
+            </div>
+          </div>
+          <button onclick="openModal('modal-admin')"
+            class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-purple-50 dark:bg-purple-900/30 border border-purple-200/80 dark:border-purple-700/50 text-purple-700 dark:text-purple-300 text-xs font-semibold hover:bg-purple-100 dark:hover:bg-purple-900/50 transition active:scale-95">
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+            <span data-i18n="admin_btn">Admin</span>
+          </button>
+        </div>
+
+        <!-- Credits & Quota Hero Card -->
+        <div class="rounded-2xl p-4 bg-gradient-to-br from-emerald-900 via-teal-900 to-slate-900 text-white shadow-lg relative overflow-hidden">
+          <!-- Subtle Glow Accent -->
+          <div class="absolute -top-10 -right-10 w-36 h-36 bg-teal-400/15 rounded-full blur-2xl pointer-events-none"></div>
+
+          <div class="flex items-start justify-between relative z-10">
+            <div>
+              <p class="text-[11px] font-medium text-emerald-200/80" data-i18n="credits_remaining">Credits Remaining</p>
+              <p id="credits-display" class="text-2xl font-extrabold tracking-tight mt-0.5 flex items-center gap-1.5">
+                <span class="text-teal-300">∞</span> Unlimited
+              </p>
+            </div>
+            <div class="text-right">
+              <p class="text-[11px] font-medium text-slate-300/80" data-i18n="total_created">Total Created</p>
+              <p id="total-created-display" class="text-base font-extrabold text-cyan-300 mt-1">11 Acc</p>
+            </div>
+          </div>
+
+          <!-- Quota Row -->
+          <div class="mt-4 pt-3 border-t border-white/10 relative z-10">
+            <div class="flex items-center justify-between text-[11px] font-medium mb-2">
+              <span class="text-slate-200">
+                <span data-i18n="daily_quota">Daily Quota</span>:
+                <strong id="daily-quota-used" class="text-white">4</strong> / <span id="daily-quota-max">99999</span>
+              </span>
+              <span class="text-cyan-300 font-semibold tabular-nums">
+                <span data-i18n="resets_in">Resets in</span> <span id="quota-countdown">23h 19m 45s</span>
+              </span>
+            </div>
+            <!-- Progress Bar -->
+            <div class="w-full h-2 bg-slate-950/50 rounded-full overflow-hidden">
+              <div id="quota-progress-bar" class="h-full bg-gradient-to-r from-emerald-400 to-cyan-400 rounded-full shadow-[0_0_10px_rgba(45,212,191,0.7)] transition-all duration-500" style="width: 14%"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section Header -->
+        <div class="flex items-center justify-between pt-1">
+          <h3 class="text-sm font-extrabold text-slate-900 dark:text-white tracking-tight" data-i18n="all_pages_tools">All Pages & Tools</h3>
+          <span class="text-[11px] font-medium text-slate-400 dark:text-slate-500" data-i18n="tap_any_box">Tap any box</span>
+        </div>
+
+        <!-- 3-Column Tool Grid (12 Polished Cards) -->
+        <div class="grid grid-cols-3 gap-2.5 pb-2">
+
+          <!-- 1. Meta Creator -->
+          <button onclick="openToolView('tool-meta-creator')"
+            class="group relative bg-white dark:bg-slate-800/90 rounded-2xl p-3 border border-slate-200/80 dark:border-slate-700/80 border-t-2 border-t-blue-400 dark:border-t-blue-500 shadow-card hover:shadow-md transition active:scale-[0.97] flex flex-col items-center text-center">
+            <div class="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 flex items-center justify-center mb-2">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18.178 8c5.096 0 5.096 8 0 8-5.095 0-7.133-8-12.739-8-4.585 0-4.585 8 0 8 5.606 0 7.644-8 12.74-8z"/>
+              </svg>
+            </div>
+            <span class="text-[11px] font-bold text-slate-800 dark:text-slate-100 leading-tight" data-i18n="tool_meta">Meta Creator</span>
+            <span class="text-[9.5px] text-slate-400 dark:text-slate-400 mt-0.5 leading-tight">Fast Batch Maker</span>
+          </button>
+
+          <!-- 2. Instagram Automation -->
+          <button onclick="openToolView('tool-ig-auto')"
+            class="group relative bg-white dark:bg-slate-800/90 rounded-2xl p-3 border border-slate-200/80 dark:border-slate-700/80 border-t-2 border-t-pink-400 dark:border-t-pink-500 shadow-card hover:shadow-md transition active:scale-[0.97] flex flex-col items-center text-center">
+            <div class="w-10 h-10 rounded-xl bg-pink-50 dark:bg-pink-900/40 text-pink-600 dark:text-pink-400 flex items-center justify-center mb-2">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/>
+              </svg>
+            </div>
+            <span class="text-[11px] font-bold text-slate-800 dark:text-slate-100 leading-tight" data-i18n="tool_ig">Instagram Automation</span>
+            <span class="text-[9.5px] text-slate-400 dark:text-slate-400 mt-0.5 leading-tight">Login & Col B</span>
+          </button>
+
+          <!-- 3. 2FA Authenticator -->
+          <button onclick="openToolView('tool-2fa')"
+            class="group relative bg-white dark:bg-slate-800/90 rounded-2xl p-3 border border-slate-200/80 dark:border-slate-700/80 border-t-2 border-t-cyan-400 dark:border-t-cyan-500 shadow-card hover:shadow-md transition active:scale-[0.97] flex flex-col items-center text-center">
+            <span id="badge-2fa-count" class="absolute top-2 right-2 min-w-[18px] h-[18px] px-1 rounded-md bg-sky-100 dark:bg-sky-900/60 text-sky-700 dark:text-sky-300 text-[10px] font-bold flex items-center justify-center">2</span>
+            <div class="w-10 h-10 rounded-xl bg-cyan-50 dark:bg-cyan-900/40 text-cyan-600 dark:text-cyan-400 flex items-center justify-center mb-2">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/><path d="m9 12 2 2 4-4"/>
+              </svg>
+            </div>
+            <span class="text-[11px] font-bold text-slate-800 dark:text-slate-100 leading-tight" data-i18n="tool_2fa">2FA Authenticator</span>
+            <span class="text-[9.5px] text-slate-400 dark:text-slate-400 mt-0.5 leading-tight">Live 6-Digit TOTP</span>
+          </button>
+
+          <!-- 4. Accounts Vault -->
+          <button onclick="switchTab('account')"
+            class="group relative bg-white dark:bg-slate-800/90 rounded-2xl p-3 border border-slate-200/80 dark:border-slate-700/80 border-t-2 border-t-emerald-400 dark:border-t-emerald-500 shadow-card hover:shadow-md transition active:scale-[0.97] flex flex-col items-center text-center">
+            <span id="badge-vault-count" class="absolute top-2 right-2 min-w-[18px] h-[18px] px-1 rounded-md bg-emerald-100 dark:bg-emerald-900/60 text-emerald-700 dark:text-emerald-300 text-[10px] font-bold flex items-center justify-center">2</span>
+            <div class="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-900/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mb-2">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect width="18" height="18" x="3" y="3" rx="2"/><circle cx="12" cy="12" r="3"/><path d="M12 9V7"/><path d="M12 17v-2"/><path d="M9 12H7"/><path d="M17 12h-2"/>
+              </svg>
+            </div>
+            <span class="text-[11px] font-bold text-slate-800 dark:text-slate-100 leading-tight" data-i18n="tool_vault">Accounts Vault</span>
+            <span class="text-[9.5px] text-slate-400 dark:text-slate-400 mt-0.5 leading-tight">Saved & Live TOTP</span>
+          </button>
+
+          <!-- 5. Meta Cookie -->
+          <button onclick="openToolView('tool-meta-cookie')"
+            class="group relative bg-white dark:bg-slate-800/90 rounded-2xl p-3 border border-slate-200/80 dark:border-slate-700/80 border-t-2 border-t-amber-400 dark:border-t-amber-500 shadow-card hover:shadow-md transition active:scale-[0.97] flex flex-col items-center text-center">
+            <span class="absolute top-2 right-2 min-w-[18px] h-[18px] px-1 rounded-md bg-amber-100 dark:bg-amber-900/60 text-amber-700 dark:text-amber-300 text-[10px] font-bold flex items-center justify-center">3</span>
+            <div class="w-10 h-10 rounded-xl bg-amber-50 dark:bg-amber-900/40 text-amber-600 dark:text-amber-400 flex items-center justify-center mb-2">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5"/><path d="M8.5 8.5v.01"/><path d="M16 15.5v.01"/><path d="M12 12v.01"/><path d="M11 17v.01"/><path d="M7 14v.01"/>
+              </svg>
+            </div>
+            <span class="text-[11px] font-bold text-slate-800 dark:text-slate-100 leading-tight" data-i18n="tool_cookie">Meta Cookie</span>
+            <span class="text-[9.5px] text-slate-400 dark:text-slate-400 mt-0.5 leading-tight">Multi-Box RR</span>
+          </button>
+
+          <!-- 6. Access Keys -->
+          <button onclick="openToolView('tool-access-keys')"
+            class="group relative bg-white dark:bg-slate-800/90 rounded-2xl p-3 border border-slate-200/80 dark:border-slate-700/80 border-t-2 border-t-indigo-400 dark:border-t-indigo-500 shadow-card hover:shadow-md transition active:scale-[0.97] flex flex-col items-center text-center">
+            <span class="absolute top-2 right-2 min-w-[18px] h-[18px] px-1 rounded-md bg-indigo-100 dark:bg-indigo-900/60 text-indigo-700 dark:text-indigo-300 text-[10px] font-bold flex items-center justify-center">1</span>
+            <div class="w-10 h-10 rounded-xl bg-indigo-50 dark:bg-indigo-900/40 text-indigo-600 dark:text-indigo-400 flex items-center justify-center mb-2">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="7.5" cy="15.5" r="5.5"/><path d="m21 2-9.6 9.6"/><path d="m15.5 7.5 3 3L22 7l-3-3"/>
+              </svg>
+            </div>
+            <span class="text-[11px] font-bold text-slate-800 dark:text-slate-100 leading-tight" data-i18n="tool_keys">Access Keys</span>
+            <span class="text-[9.5px] text-slate-400 dark:text-slate-400 mt-0.5 leading-tight">Multi-Box RR</span>
+          </button>
+
+          <!-- 7. Google Sheet -->
+          <button onclick="openModal('modal-gsheet')"
+            class="group relative bg-white dark:bg-slate-800/90 rounded-2xl p-3 border border-slate-200/80 dark:border-slate-700/80 border-t-2 border-t-green-500 shadow-card hover:shadow-md transition active:scale-[0.97] flex flex-col items-center text-center">
+            <span id="badge-gsheet-status" class="absolute top-2 right-2 px-1.5 py-0.5 rounded-md bg-emerald-100 dark:bg-emerald-900/60 text-emerald-700 dark:text-emerald-300 text-[9px] font-extrabold">ON</span>
+            <div class="w-10 h-10 rounded-xl bg-green-50 dark:bg-green-900/40 text-green-600 dark:text-green-400 flex items-center justify-center mb-2">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><path d="M8 13h8"/><path d="M8 17h8"/><path d="M10 13v4"/>
+              </svg>
+            </div>
+            <span class="text-[11px] font-bold text-slate-800 dark:text-slate-100 leading-tight" data-i18n="tool_gsheet">Google Sheet</span>
+            <span class="text-[9.5px] text-slate-400 dark:text-slate-400 mt-0.5 leading-tight">A/B/C/D Sync</span>
+          </button>
+
+          <!-- 8. Redeem Code -->
+          <button onclick="openModal('modal-redeem')"
+            class="group relative bg-white dark:bg-slate-800/90 rounded-2xl p-3 border border-slate-200/80 dark:border-slate-700/80 border-t-2 border-t-violet-400 dark:border-t-violet-500 shadow-card hover:shadow-md transition active:scale-[0.97] flex flex-col items-center text-center">
+            <div class="w-10 h-10 rounded-xl bg-violet-50 dark:bg-violet-900/40 text-violet-600 dark:text-violet-400 flex items-center justify-center mb-2">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M13 5v2"/><path d="M13 17v2"/><path d="M13 11v2"/>
+              </svg>
+            </div>
+            <span class="text-[11px] font-bold text-slate-800 dark:text-slate-100 leading-tight" data-i18n="tool_redeem">Redeem Code</span>
+            <span class="text-[9.5px] text-slate-400 dark:text-slate-400 mt-0.5 leading-tight">Topup Voucher</span>
+          </button>
+
+          <!-- 9. Profile & Theme -->
+          <button onclick="switchTab('profile')"
+            class="group relative bg-white dark:bg-slate-800/90 rounded-2xl p-3 border border-slate-200/80 dark:border-slate-700/80 border-t-2 border-t-teal-400 dark:border-t-teal-500 shadow-card hover:shadow-md transition active:scale-[0.97] flex flex-col items-center text-center">
+            <div class="w-10 h-10 rounded-xl bg-teal-50 dark:bg-teal-900/40 text-teal-600 dark:text-teal-400 flex items-center justify-center mb-2">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" x2="19" y1="8" y2="14"/><line x1="22" x2="16" y1="11" y2="11"/>
+              </svg>
+            </div>
+            <span class="text-[11px] font-bold text-slate-800 dark:text-slate-100 leading-tight" data-i18n="tool_profile">Profile & Theme</span>
+            <span class="text-[9.5px] text-slate-400 dark:text-slate-400 mt-0.5 leading-tight">Theme & Proxy</span>
+          </button>
+
+          <!-- 10. Help & Support -->
+          <button onclick="openModal('modal-help')"
+            class="group relative bg-white dark:bg-slate-800/90 rounded-2xl p-3 border border-slate-200/80 dark:border-slate-700/80 border-t-2 border-t-orange-400 dark:border-t-orange-500 shadow-card hover:shadow-md transition active:scale-[0.97] flex flex-col items-center text-center">
+            <div class="w-10 h-10 rounded-xl bg-orange-50 dark:bg-orange-900/40 text-orange-600 dark:text-orange-400 flex items-center justify-center mb-2">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3"/>
+              </svg>
+            </div>
+            <span class="text-[11px] font-bold text-slate-800 dark:text-slate-100 leading-tight" data-i18n="tool_help">Help & Support</span>
+            <span class="text-[9.5px] text-slate-400 dark:text-slate-400 mt-0.5 leading-tight">Docs & Setup</span>
+          </button>
+
+          <!-- 11. Support -->
+          <button onclick="openModal('modal-support')"
+            class="group relative bg-white dark:bg-slate-800/90 rounded-2xl p-3 border border-slate-200/80 dark:border-slate-700/80 border-t-2 border-t-sky-400 dark:border-t-sky-500 shadow-card hover:shadow-md transition active:scale-[0.97] flex flex-col items-center text-center">
+            <div class="w-10 h-10 rounded-xl bg-sky-50 dark:bg-sky-900/40 text-sky-600 dark:text-sky-400 flex items-center justify-center mb-2">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 10h.01"/><path d="M12 10h.01"/><path d="M16 10h.01"/>
+              </svg>
+            </div>
+            <span class="text-[11px] font-bold text-slate-800 dark:text-slate-100 leading-tight" data-i18n="tool_support">Support</span>
+            <span class="text-[9.5px] text-slate-400 dark:text-slate-400 mt-0.5 leading-tight">Telegram / Chat</span>
+          </button>
+
+          <!-- 12. Developer -->
+          <button onclick="openModal('modal-developer')"
+            class="group relative bg-white dark:bg-slate-800/90 rounded-2xl p-3 border border-slate-200/80 dark:border-slate-700/80 border-t-2 border-t-purple-400 dark:border-t-purple-500 shadow-card hover:shadow-md transition active:scale-[0.97] flex flex-col items-center text-center">
+            <div class="w-10 h-10 rounded-xl bg-purple-50 dark:bg-purple-900/40 text-purple-600 dark:text-purple-400 flex items-center justify-center mb-2">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
+              </svg>
+            </div>
+            <span class="text-[11px] font-bold text-slate-800 dark:text-slate-100 leading-tight" data-i18n="tool_dev">Developer</span>
+            <span class="text-[9.5px] text-slate-400 dark:text-slate-400 mt-0.5 leading-tight">API & Build Info</span>
+          </button>
+
+        </div>
+      </section>
+
+      <!-- ==================== TAB 2: CREATE (AUTOMATION HUB) ==================== -->
+      <section id="view-create" class="view-section hidden space-y-4">
+        <div class="flex items-center justify-between">
+          <div>
+            <h2 class="text-base font-extrabold text-slate-900 dark:text-white" data-i18n="create_hub">Automation Runner</h2>
+            <p class="text-xs text-slate-500 dark:text-slate-400">Connect your Python FastAPI / Flask backend</p>
+          </div>
+          <span id="backend-status-pill" class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300">
+            Local Demo
+          </span>
+        </div>
+
+        <!-- Module Selector Pills -->
+        <div class="grid grid-cols-2 gap-2">
+          <button onclick="selectAutomationModule('meta')" id="mod-btn-meta"
+            class="mod-btn p-2.5 rounded-xl border text-left transition bg-teal-50 dark:bg-teal-900/30 border-teal-400 text-teal-800 dark:text-teal-200">
+            <div class="text-xs font-bold">Meta Creator</div>
+            <div class="text-[10px] opacity-75">Fast Batch Maker</div>
+          </button>
+          <button onclick="selectAutomationModule('ig')" id="mod-btn-ig"
+            class="mod-btn p-2.5 rounded-xl border text-left transition bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300">
+            <div class="text-xs font-bold">IG Automation</div>
+            <div class="text-[10px] opacity-75">Login & Col B Sync</div>
+          </button>
+          <button onclick="selectAutomationModule('cookie')" id="mod-btn-cookie"
+            class="mod-btn p-2.5 rounded-xl border text-left transition bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300">
+            <div class="text-xs font-bold">Meta Cookie</div>
+            <div class="text-[10px] opacity-75">Multi-Box RR</div>
+          </button>
+          <button onclick="selectAutomationModule('keys')" id="mod-btn-keys"
+            class="mod-btn p-2.5 rounded-xl border text-left transition bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300">
+            <div class="text-xs font-bold">Access Keys</div>
+            <div class="text-[10px] opacity-75">Token & Multi-Box</div>
+          </button>
+        </div>
+
+        <!-- Automation Configuration Card -->
+        <div class="bg-white dark:bg-slate-800 rounded-2xl p-4 border border-slate-200/80 dark:border-slate-700 shadow-card space-y-3">
+          <div class="flex items-center justify-between">
+            <h3 id="active-module-title" class="text-sm font-bold text-slate-900 dark:text-white">Meta Creator — Fast Batch</h3>
+            <label class="inline-flex items-center gap-1.5 cursor-pointer">
+              <input id="auto-use-proxy" type="checkbox" class="rounded text-teal-600 focus:ring-teal-500" />
+              <span class="text-[11px] font-semibold text-slate-600 dark:text-slate-300">Use Proxy</span>
+            </label>
+          </div>
+
+          <div>
+            <label class="block text-[11px] font-semibold text-slate-500 dark:text-slate-400 mb-1">Python Backend API URL</label>
+            <input id="auto-api-url" type="url" placeholder="https://your-python-api.onrender.com/api/run"
+              class="w-full px-3 py-2 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-xs focus:outline-none focus:ring-2 focus:ring-teal-500" />
+          </div>
+
+          <div class="grid grid-cols-2 gap-2.5">
+            <div>
+              <label class="block text-[11px] font-semibold text-slate-500 dark:text-slate-400 mb-1">Batch Count / Rows</label>
+              <input id="auto-batch-count" type="number" min="1" max="50" value="3"
+                class="w-full px-3 py-2 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-teal-500" />
+            </div>
+            <div>
+              <label class="block text-[11px] font-semibold text-slate-500 dark:text-slate-400 mb-1">Sheet Column Target</label>
+              <select id="auto-col-target"
+                class="w-full px-3 py-2 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-teal-500">
+                <option value="A/B/C/D">Auto Sync (A/B/C/D)</option>
+                <option value="Col B">Column B Only</option>
+                <option value="Multi-Box RR">Multi-Box RR</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-[11px] font-semibold text-slate-500 dark:text-slate-400 mb-1">Input Payload / Multi-Box Data (1 per line)</label>
+            <textarea id="auto-input-data" rows="3" placeholder="Paste IDs, tokens, or JSON payload parameters here..."
+              class="w-full px-3 py-2 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-xs font-mono focus:outline-none focus:ring-2 focus:ring-teal-500"></textarea>
+          </div>
+
+          <div class="flex gap-2 pt-1">
+            <button id="btn-run-auto" onclick="runAutomationJob()"
+              class="flex-1 py-2.5 rounded-xl bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-500 hover:to-emerald-500 text-white text-xs font-bold shadow-md transition active:scale-[0.98] flex items-center justify-center gap-1.5">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              <span>Run Task</span>
+            </button>
+            <button onclick="clearConsoleLogs()"
+              class="px-3.5 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-200 text-xs font-bold hover:bg-slate-200 dark:hover:bg-slate-600 transition">
+              Clear
+            </button>
+          </div>
+        </div>
+
+        <!-- Live Execution Console -->
+        <div class="bg-slate-950 rounded-2xl p-3.5 border border-slate-800 shadow-inner">
+          <div class="flex items-center justify-between mb-2">
+            <div class="flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span class="text-[11px] font-mono font-bold text-slate-300">EXECUTION CONSOLE</span>
+            </div>
+            <button onclick="copyText(document.getElementById('auto-console').innerText, 'Logs copied!')"
+              class="text-[10px] font-semibold text-teal-400 hover:underline">Copy Log</button>
+          </div>
+          <pre id="auto-console" class="text-[11px] font-mono text-emerald-400/95 h-36 overflow-y-auto whitespace-pre-wrap leading-relaxed">[READY] CYBEREO Engine v4.0 initialized.
+[INFO] Configure your Python API URL or press "Run Task" to test workflow.</pre>
+        </div>
+      </section>
+
+      <!-- ==================== TOOL VIEW: LIVE 2FA AUTHENTICATOR ==================== -->
+      <section id="view-2fa" class="view-section hidden space-y-4">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <button onclick="switchTab('home')" class="w-8 h-8 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-600 dark:text-slate-300">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m15 18-6-6 6-6"/></svg>
+            </button>
+            <div>
+              <h2 class="text-base font-extrabold text-slate-900 dark:text-white">2FA Authenticator</h2>
+              <p class="text-[11px] text-slate-500 dark:text-slate-400">Real RFC 6238 6-Digit Live TOTP</p>
+            </div>
+          </div>
+          <div class="px-2.5 py-1 rounded-xl bg-cyan-50 dark:bg-cyan-900/40 text-cyan-700 dark:text-cyan-300 text-xs font-extrabold tabular-nums">
+            <span id="totp-timer-text">30</span>s
+          </div>
+        </div>
+
+        <!-- Global 30s TOTP Countdown Bar -->
+        <div class="w-full h-1.5 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
+          <div id="totp-progress-bar" class="h-full bg-gradient-to-r from-cyan-500 to-teal-500 transition-all duration-300" style="width: 100%"></div>
+        </div>
+
+        <!-- Quick Live Generator Card -->
+        <div class="bg-white dark:bg-slate-800 rounded-2xl p-4 border border-slate-200/80 dark:border-slate-700 shadow-card space-y-3">
+          <label class="block text-xs font-bold text-slate-700 dark:text-slate-200">Quick Secret Key (Base32)</label>
+          <input id="quick-2fa-secret" type="text" placeholder="e.g. JBSW Y3DP EHPK 3PXP" oninput="updateQuickTotp()"
+            class="w-full px-3 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-xs font-mono uppercase tracking-wider focus:outline-none focus:ring-2 focus:ring-cyan-500" />
+
+          <!-- Live 6-Digit Display -->
+          <div class="flex items-center justify-between bg-slate-900 dark:bg-slate-950 rounded-xl p-3.5 text-white">
+            <div>
+              <p class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">Live 6-Digit Code</p>
+              <p id="quick-2fa-code" class="text-2xl font-mono font-extrabold tracking-[0.22em] text-cyan-400 mt-0.5">------</p>
+            </div>
+            <button onclick="copyQuickTotp()"
+              class="px-3.5 py-2 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-bold transition active:scale-95">
+              Copy
+            </button>
+          </div>
+
+          <!-- Save to List Form -->
+          <div class="flex gap-2 pt-1">
+            <input id="save-2fa-label" type="text" placeholder="Label (e.g. Meta Main)"
+              class="flex-1 px-3 py-2 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-xs focus:outline-none focus:ring-2 focus:ring-teal-500" />
+            <button onclick="save2FAKey()"
+              class="px-4 py-2 rounded-xl bg-teal-600 hover:bg-teal-500 text-white text-xs font-bold transition active:scale-95">
+              + Save
+            </button>
+          </div>
+        </div>
+
+        <!-- Saved 2FA Keys List -->
+        <div class="space-y-2">
+          <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 px-1">Saved Authenticator Keys</h3>
+          <div id="saved-2fa-list" class="space-y-2.5"></div>
+        </div>
+      </section>
+
+      <!-- ==================== TAB 3: ACCOUNTS VAULT ==================== -->
+      <section id="view-account" class="view-section hidden space-y-4">
+        <div class="flex items-center justify-between">
+          <div>
+            <h2 class="text-base font-extrabold text-slate-900 dark:text-white" data-i18n="vault_title">Accounts Vault</h2>
+            <p class="text-xs text-slate-500 dark:text-slate-400">Saved credentials with live 2FA codes</p>
+          </div>
+          <button onclick="openModal('modal-add-vault')"
+            class="px-3.5 py-2 rounded-xl bg-teal-600 hover:bg-teal-500 text-white text-xs font-bold shadow-sm transition active:scale-95">
+            + Add Account
+          </button>
+        </div>
+
+        <!-- Search Vault -->
+        <input id="vault-search" type="text" placeholder="Search saved accounts..." oninput="renderVaultList()"
+          class="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs focus:outline-none focus:ring-2 focus:ring-teal-500" />
+
+        <!-- Vault Items Container -->
+        <div id="vault-list" class="space-y-3"></div>
+      </section>
+
+      <!-- ==================== TAB 4: PROFILE & THEME / PROXY ==================== -->
+      <section id="view-profile" class="view-section hidden space-y-4">
+        <h2 class="text-base font-extrabold text-slate-900 dark:text-white" data-i18n="profile_settings">Profile, Theme & Proxy</h2>
+
+        <!-- Appearance Card -->
+        <div class="bg-white dark:bg-slate-800 rounded-2xl p-4 border border-slate-200/80 dark:border-slate-700 shadow-card space-y-3">
+          <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Appearance & Language</h3>
+          <div class="flex items-center justify-between py-1">
+            <div>
+              <p class="text-xs font-bold text-slate-800 dark:text-slate-100">Dark Mode</p>
+              <p class="text-[11px] text-slate-400">Switch between Light and Dark theme</p>
+            </div>
+            <button onclick="toggleTheme()" id="profile-theme-btn"
+              class="px-3.5 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-700 text-xs font-bold text-teal-600 dark:text-teal-300">
+              Toggle
+            </button>
+          </div>
+          <div class="flex items-center justify-between py-1 border-t border-slate-100 dark:border-slate-700/70 pt-3">
+            <div>
+              <p class="text-xs font-bold text-slate-800 dark:text-slate-100">App Language</p>
+              <p class="text-[11px] text-slate-400">English (EN) / বাংলা (BN)</p>
+            </div>
+            <button onclick="toggleLanguage()" id="profile-lang-btn"
+              class="px-3.5 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-700 text-xs font-bold text-teal-600 dark:text-teal-300">
+              EN / BN
+            </button>
+          </div>
+        </div>
+
+        <!-- Proxy & Backend Configuration Card -->
+        <div class="bg-white dark:bg-slate-800 rounded-2xl p-4 border border-slate-200/80 dark:border-slate-700 shadow-card space-y-3">
+          <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Proxy & Network Config</h3>
+
+          <div>
+            <label class="block text-[11px] font-semibold text-slate-500 dark:text-slate-400 mb-1">Proxy Protocol</label>
+            <select id="proxy-type"
+              class="w-full px-3 py-2 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-teal-500">
+              <option value="http">HTTP / HTTPS</option>
+              <option value="socks5">SOCKS5</option>
+              <option value="none">Direct (No Proxy)</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-[11px] font-semibold text-slate-500 dark:text-slate-400 mb-1">Proxy String (Host:Port:User:Pass)</label>
+            <input id="proxy-string" type="text" placeholder="192.168.1.1:8080:user:pass"
+              class="w-full px-3 py-2 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-xs font-mono focus:outline-none focus:ring-2 focus:ring-teal-500" />
+          </div>
+
+          <div>
+            <label class="block text-[11px] font-semibold text-slate-500 dark:text-slate-400 mb-1">Default Python Backend URL</label>
+            <input id="profile-backend-url" type="url" placeholder="https://api.yourdomain.com"
+              class="w-full px-3 py-2 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-xs font-mono focus:outline-none focus:ring-2 focus:ring-teal-500" />
+          </div>
+
+          <button onclick="saveProfileSettings()"
+            class="w-full py-2.5 rounded-xl bg-teal-600 hover:bg-teal-500 text-white text-xs font-bold shadow-sm transition active:scale-[0.98]">
+            Save Network Settings
+          </button>
+        </div>
+
+        <!-- Data Reset Card -->
+        <div class="bg-white dark:bg-slate-800 rounded-2xl p-4 border border-slate-200/80 dark:border-slate-700 shadow-card flex items-center justify-between">
+          <div>
+            <p class="text-xs font-bold text-slate-800 dark:text-slate-100">Export Local Backup</p>
+            <p class="text-[11px] text-slate-400">Copy Vault & 2FA JSON to clipboard</p>
+          </div>
+          <button onclick="exportBackupJson()"
+            class="px-3.5 py-2 rounded-xl bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-bold hover:bg-slate-200 dark:hover:bg-slate-600 transition">
+            Export
+          </button>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- ==================== FIXED BOTTOM NAVIGATION BAR ==================== -->
+    <nav class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md z-40 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-t border-slate-200/80 dark:border-slate-800 px-3 py-2 flex items-center justify-around">
+      <button onclick="switchTab('home')" id="nav-home" class="nav-btn flex flex-col items-center gap-0.5 px-4 py-1.5 rounded-2xl transition">
+        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+        <span class="text-[10px] font-bold" data-i18n="nav_home">Home</span>
+      </button>
+
+      <button onclick="switchTab('create')" id="nav-create" class="nav-btn flex flex-col items-center gap-0.5 px-4 py-1.5 rounded-2xl transition">
+        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        <span class="text-[10px] font-bold" data-i18n="nav_create">Create</span>
+      </button>
+
+      <button onclick="switchTab('account')" id="nav-account" class="nav-btn flex flex-col items-center gap-0.5 px-4 py-1.5 rounded-2xl transition">
+        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+        <span class="text-[10px] font-bold" data-i18n="nav_account">Account</span>
+      </button>
+
+      <button onclick="switchTab('profile')" id="nav-profile" class="nav-btn flex flex-col items-center gap-0.5 px-4 py-1.5 rounded-2xl transition">
+        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+        <span class="text-[10px] font-bold" data-i18n="nav_profile">Profile</span>
+      </button>
+    </nav>
+
+  </div>
+
+  <!-- ==================== MODALS OVERLAY ==================== -->
+  <div id="modal-backdrop" onclick="closeAllModals()" class="fixed inset-0 bg-slate-950/60 backdrop-blur-xs z-50 hidden items-end sm:items-center justify-center p-4">
+
+    <!-- Modal: Add Account to Vault -->
+    <div id="modal-add-vault" onclick="event.stopPropagation()" class="modal-box hidden w-full max-w-sm bg-white dark:bg-slate-800 rounded-2xl p-5 shadow-2xl border border-slate-200 dark:border-slate-700 space-y-3">
+      <div class="flex items-center justify-between">
+        <h3 class="text-sm font-extrabold text-slate-900 dark:text-white">Add Account to Vault</h3>
+        <button onclick="closeAllModals()" class="text-slate-400 hover:text-slate-600 text-lg font-bold">&times;</button>
+      </div>
+      <input id="vault-in-label" type="text" placeholder="Account Label / ID (e.g. meta_acc_01)"
+        class="w-full px-3 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-xs focus:outline-none focus:ring-2 focus:ring-teal-500" />
+      <input id="vault-in-pass" type="text" placeholder="Password / Token"
+        class="w-full px-3 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-xs focus:outline-none focus:ring-2 focus:ring-teal-500" />
+      <input id="vault-in-2fa" type="text" placeholder="2FA Base32 Secret (Optional)"
+        class="w-full px-3 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-xs font-mono uppercase focus:outline-none focus:ring-2 focus:ring-teal-500" />
+      <button onclick="addVaultAccount()" class="w-full py-2.5 rounded-xl bg-teal-600 hover:bg-teal-500 text-white text-xs font-bold transition">
+        Save to Vault
+      </button>
+    </div>
+
+    <!-- Modal: Google Sheet A/B/C/D Sync -->
+    <div id="modal-gsheet" onclick="event.stopPropagation()" class="modal-box hidden w-full max-w-sm bg-white dark:bg-slate-800 rounded-2xl p-5 shadow-2xl border border-slate-200 dark:border-slate-700 space-y-3">
+      <div class="flex items-center justify-between">
+        <h3 class="text-sm font-extrabold text-slate-900 dark:text-white">Google Sheet (A/B/C/D Sync)</h3>
+        <button onclick="closeAllModals()" class="text-slate-400 hover:text-slate-600 text-lg font-bold">&times;</button>
+      </div>
+      <div class="flex items-center justify-between bg-slate-50 dark:bg-slate-900 p-3 rounded-xl">
+        <span class="text-xs font-bold text-slate-700 dark:text-slate-200">Auto-Sync Status</span>
+        <label class="inline-flex items-center gap-2 cursor-pointer">
+          <input id="gsheet-enabled" type="checkbox" class="w-4 h-4 rounded text-emerald-600 focus:ring-emerald-500" checked />
+          <span class="text-xs font-bold text-emerald-600 dark:text-emerald-400">ON</span>
+        </label>
+      </div>
+      <div>
+        <label class="block text-[11px] font-semibold text-slate-500 dark:text-slate-400 mb-1">Apps Script Web App URL</label>
+        <input id="gsheet-url" type="url" placeholder="https://script.google.com/macros/s/.../exec"
+          class="w-full px-3 py-2 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-xs font-mono focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+      </div>
+      <div class="grid grid-cols-2 gap-2">
+        <input id="gsheet-col-a" type="text" value="UID / Email" class="px-2.5 py-2 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-[11px]" placeholder="Col A" />
+        <input id="gsheet-col-b" type="text" value="Password" class="px-2.5 py-2 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-[11px]" placeholder="Col B" />
+        <input id="gsheet-col-c" type="text" value="2FA Secret" class="px-2.5 py-2 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-[11px]" placeholder="Col C" />
+        <input id="gsheet-col-d" type="text" value="Cookie / Status" class="px-2.5 py-2 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-[11px]" placeholder="Col D" />
+      </div>
+      <div class="flex gap-2 pt-1">
+        <button onclick="saveGSheetSettings()" class="flex-1 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition">Save</button>
+        <button onclick="testGSheetSync()" class="px-4 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-bold transition">Test JSON</button>
+      </div>
+    </div>
+
+    <!-- Modal: Redeem Code -->
+    <div id="modal-redeem" onclick="event.stopPropagation()" class="modal-box hidden w-full max-w-sm bg-white dark:bg-slate-800 rounded-2xl p-5 shadow-2xl border border-slate-200 dark:border-slate-700 space-y-3">
+      <div class="flex items-center justify-between">
+        <h3 class="text-sm font-extrabold text-slate-900 dark:text-white">Redeem Topup Voucher</h3>
+        <button onclick="closeAllModals()" class="text-slate-400 hover:text-slate-600 text-lg font-bold">&times;</button>
+      </div>
+      <p class="text-[11px] text-slate-500 dark:text-slate-400">Try demo voucher code: <strong class="text-violet-600 dark:text-violet-400 font-mono">CYBEREO-VIP</strong></p>
+      <input id="redeem-input" type="text" placeholder="ENTER-VOUCHER-CODE"
+        class="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-xs font-mono uppercase tracking-wider focus:outline-none focus:ring-2 focus:ring-violet-500" />
+      <button onclick="submitRedeemCode()" class="w-full py-2.5 rounded-xl bg-violet-600 hover:bg-violet-500 text-white text-xs font-bold transition">
+        Redeem Voucher
+      </button>
+    </div>
+
+    <!-- Modal: Admin Info -->
+    <div id="modal-admin" onclick="event.stopPropagation()" class="modal-box hidden w-full max-w-sm bg-white dark:bg-slate-800 rounded-2xl p-5 shadow-2xl border border-slate-200 dark:border-slate-700 space-y-3">
+      <div class="flex items-center justify-between">
+        <h3 class="text-sm font-extrabold text-slate-900 dark:text-white">Admin Control Panel</h3>
+        <button onclick="closeAllModals()" class="text-slate-400 hover:text-slate-600 text-lg font-bold">&times;</button>
+      </div>
+      <div class="p-3 rounded-xl bg-purple-50 dark:bg-purple-900/30 border border-purple-200 dark:border-purple-800 text-xs space-y-1">
+        <p><span class="text-slate-500 dark:text-slate-400">Operator:</span> <strong>Md Zahidul</strong></p>
+        <p><span class="text-slate-500 dark:text-slate-400">Role:</span> <strong class="text-emerald-600 dark:text-emerald-400">SUPER ADMIN</strong></p>
+        <p><span class="text-slate-500 dark:text-slate-400">Suite Version:</span> <strong>v4.0 (Mobile Web/APK Ready)</strong></p>
+      </div>
+      <button onclick="closeAllModals()" class="w-full py-2 rounded-xl bg-slate-900 dark:bg-slate-700 text-white text-xs font-bold">Close</button>
+    </div>
+
+    <!-- Modal: Help, Support, Developer -->
+    <div id="modal-help" onclick="event.stopPropagation()" class="modal-box hidden w-full max-w-sm bg-white dark:bg-slate-800 rounded-2xl p-5 shadow-2xl border border-slate-200 dark:border-slate-700 space-y-3">
+      <div class="flex items-center justify-between">
+        <h3 class="text-sm font-extrabold text-slate-900 dark:text-white">Help & Quick Setup</h3>
+        <button onclick="closeAllModals()" class="text-slate-400 hover:text-slate-600 text-lg font-bold">&times;</button>
+      </div>
+      <ul class="text-xs text-slate-600 dark:text-slate-300 space-y-2 list-disc pl-4">
+        <li><strong>2FA Authenticator:</strong> Works 100% offline using real RFC 6238 TOTP.</li>
+        <li><strong>Accounts Vault:</strong> Stored locally in your browser/WebView storage.</li>
+        <li><strong>Python Backend:</strong> Host FastAPI/Flask and paste the URL in the Create or Profile tab.</li>
+      </ul>
+      <button onclick="closeAllModals()" class="w-full py-2 rounded-xl bg-teal-600 text-white text-xs font-bold">Got It</button>
+    </div>
+
+    <div id="modal-support" onclick="event.stopPropagation()" class="modal-box hidden w-full max-w-sm bg-white dark:bg-slate-800 rounded-2xl p-5 shadow-2xl border border-slate-200 dark:border-slate-700 space-y-3">
+      <div class="flex items-center justify-between">
+        <h3 class="text-sm font-extrabold text-slate-900 dark:text-white">Support Desk</h3>
+        <button onclick="closeAllModals()" class="text-slate-400 hover:text-slate-600 text-lg font-bold">&times;</button>
+      </div>
+      <p class="text-xs text-slate-600 dark:text-slate-300">Need help integrating your backend API or packaging this into an Android APK with Capacitor/WebView?</p>
+      <button onclick="copyText('@cybereo_support', 'Support handle copied!')" class="w-full py-2.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white text-xs font-bold">Copy Support Handle</button>
+    </div>
+
+    <div id="modal-developer" onclick="event.stopPropagation()" class="modal-box hidden w-full max-w-sm bg-white dark:bg-slate-800 rounded-2xl p-5 shadow-2xl border border-slate-200 dark:border-slate-700 space-y-3">
+      <div class="flex items-center justify-between">
+        <h3 class="text-sm font-extrabold text-slate-900 dark:text-white">Developer & APK Info</h3>
+        <button onclick="closeAllModals()" class="text-slate-400 hover:text-slate-600 text-lg font-bold">&times;</button>
+      </div>
+      <div class="text-xs text-slate-600 dark:text-slate-300 space-y-1.5 font-mono bg-slate-50 dark:bg-slate-900 p-3 rounded-xl">
+        <div>App: CYBEREO AUTO TOOLS</div>
+        <div>Build: v4.0.0-hybrid</div>
+        <div>Engine: Tailwind + Vanilla JS</div>
+        <div>Crypto: RFC 6238 HMAC-SHA1</div>
+      </div>
+      <button onclick="closeAllModals()" class="w-full py-2 rounded-xl bg-purple-600 text-white text-xs font-bold">Close</button>
+    </div>
+
+  </div>
+
+  <!-- ==================== TOAST NOTIFICATION ==================== -->
+  <div id="toast-container" class="fixed bottom-20 left-1/2 -translate-x-1/2 z-50 pointer-events-none"></div>
+
+  <!-- ==================== JAVASCRIPT LOGIC ==================== -->
+  <script>
+    /* =========================================================================
+       1. STATE & LOCALSTORAGE PERSISTENCE
+       ========================================================================= */
+    const STORAGE_KEY = 'cybereo_auto_tools_v4';
+
+    const DEFAULT_STATE = {
+      theme: 'light',
+      lang: 'EN',
+      totalCreated: 11,
+      dailyQuotaUsed: 4,
+      dailyQuotaMax: 99999,
+      backendUrl: '',
+      proxyType: 'http',
+      proxyString: '',
+      gsheet: {
+        enabled: true,
+        url: '',
+        colA: 'UID / Email',
+        colB: 'Password',
+        colC: '2FA Secret',
+        colD: 'Cookie / Status'
+      },
+      saved2FA: [
+        { id: 'demo1', label: 'Meta Business Main', secret: 'JBSWY3DPEHPK3PXP' },
+        { id: 'demo2', label: 'IG Creator Suite', secret: 'HXDMVJECJJWSRB3HWIZR4IFUGFTMXBOZ' }
+      ],
+      vault: [
+        { id: 'v1', label: 'zahidul_meta_01', pass: 'Pass@2026#Meta', secret: 'JBSWY3DPEHPK3PXP' },
+        { id: 'v2', label: 'cybereo_ig_pro', pass: 'IG_Secure_9941', secret: 'HXDMVJECJJWSRB3HWIZR4IFUGFTMXBOZ' }
+      ]
+    };
+
+    let appState = loadState();
+    let activeModule = 'meta';
+
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return JSON.parse(JSON.stringify(DEFAULT_STATE));
+        return { ...JSON.parse(JSON.stringify(DEFAULT_STATE)), ...JSON.parse(raw) };
+      } catch (e) {
+        return JSON.parse(JSON.stringify(DEFAULT_STATE));
+      }
+    }
+
+    function saveState() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
+      } catch (e) {
+        console.error('Storage save failed:', e);
+      }
+      updateDashboardBadges();
+    }
+
+    /* =========================================================================
+       2. REAL RFC 6238 TOTP GENERATOR (Web Crypto + Pure JS SHA-1 Fallback)
+       ========================================================================= */
+    function base32ToBytes(base32) {
+      const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
+      const cleaned = (base32 || '').toUpperCase().replace(/[^A-Z2-7]/g, '');
+      if (!cleaned.length) return null;
+
+      let bits = 0;
+      let value = 0;
+      const bytes = [];
+      for (let i = 0; i < cleaned.length; i++) {
+        const idx = alphabet.indexOf(cleaned[i]);
+        if (idx === -1) continue;
+        value = (value << 5) | idx;
+        bits += 5;
+        if (bits >= 8) {
+          bytes.push((value >>> (bits - 8)) & 0xff);
+          bits -= 8;
+        }
+      }
+      return new Uint8Array(bytes);
+    }
+
+    // Compact Pure-JS SHA-1 & HMAC-SHA1 fallback (works even on file:// without HTTPS)
+    function sha1Bytes(msgBytes) {
+      const ml = msgBytes.length * 8;
+      const paddedLen = Math.ceil((msgBytes.length + 9) / 64) * 64;
+      const data = new Uint8Array(paddedLen);
+      data.set(msgBytes);
+      data[msgBytes.length] = 0x80;
+      const view = new DataView(data.buffer);
+      view.setUint32(paddedLen - 4, ml, false);
+
+      let h0 = 0x67452301, h1 = 0xefcdab89, h2 = 0x98badcfe, h3 = 0x10325476, h4 = 0xc3d2e1f0;
+      const w = new Uint32Array(80);
+
+      for (let offset = 0; offset < paddedLen; offset += 64) {
+        for (let i = 0; i < 16; i++) w[i] = view.getUint32(offset + i * 4, false);
+        for (let i = 16; i < 80; i++) {
+          const n = w[i - 3] ^ w[i - 8] ^ w[i - 14] ^ w[i - 16];
+          w[i] = (n << 1) | (n >>> 31);
+        }
+        let a = h0, b = h1, c = h2, d = h3, e = h4;
+        for (let i = 0; i < 80; i++) {
+          let f, k;
+          if (i < 20) { f = (b & c) | ((~b) & d); k = 0x5a827999; }
+          else if (i < 40) { f = b ^ c ^ d; k = 0x6ed9eba1; }
+          else if (i < 60) { f = (b & c) | (b & d) | (c & d); k = 0x8f1bbcdc; }
+          else { f = b ^ c ^ d; k = 0xca62c1d6; }
+          const temp = (((a << 5) | (a >>> 27)) + f + e + k + w[i]) >>> 0;
+          e = d; d = c; c = ((b << 30) | (b >>> 2)) >>> 0; b = a; a = temp;
+        }
+        h0 = (h0 + a) >>> 0; h1 = (h1 + b) >>> 0; h2 = (h2 + c) >>> 0; h3 = (h3 + d) >>> 0; h4 = (h4 + e) >>> 0;
+      }
+
+      const out = new Uint8Array(20);
+      const outView = new DataView(out.buffer);
+      outView.setUint32(0, h0, false); outView.setUint32(4, h1, false);
+      outView.setUint32(8, h2, false); outView.setUint32(12, h3, false); outView.setUint32(16, h4, false);
+      return out;
+    }
+
+    function hmacSha1Fallback(keyBytes, msgBytes) {
+      let key = keyBytes;
+      if (key.length > 64) key = sha1Bytes(key);
+      const ipad = new Uint8Array(64).fill(0x36);
+      const opad = new Uint8Array(64).fill(0x5c);
+      for (let i = 0; i < key.length; i++) {
+        ipad[i] ^= key[i];
+        opad[i] ^= key[i];
+      }
+      const inner = new Uint8Array(64 + msgBytes.length);
+      inner.set(ipad); inner.set(msgBytes, 64);
+      const innerHash = sha1Bytes(inner);
+
+      const outer = new Uint8Array(64 + 20);
+      outer.set(opad); outer.set(innerHash, 64);
+      return sha1Bytes(outer);
+    }
+
+    async function generateTOTP(secret) {
+      const keyBytes = base32ToBytes(secret);
+      if (!keyBytes || keyBytes.length === 0) return '------';
+
+      const epoch = Math.floor(Date.now() / 1000);
+      const counter = Math.floor(epoch / 30);
+      const counterBytes = new Uint8Array(8);
+      let temp = counter;
+      for (let i = 7; i >= 0; i--) {
+        counterBytes[i] = temp & 0xff;
+        temp = Math.floor(temp / 256);
+      }
+
+      let hmac;
+      try {
+        if (window.crypto && window.crypto.subtle) {
+          const cryptoKey = await window.crypto.subtle.importKey(
+            'raw', keyBytes, { name: 'HMAC', hash: 'SHA-1' }, false, ['sign']
+          );
+          const sig = await window.crypto.subtle.sign('HMAC', cryptoKey, counterBytes);
+          hmac = new Uint8Array(sig);
+        } else {
+          hmac = hmacSha1Fallback(keyBytes, counterBytes);
+        }
+      } catch (e) {
+        hmac = hmacSha1Fallback(keyBytes, counterBytes);
+      }
+
+      const offset = hmac[hmac.length - 1] & 0x0f;
+      const binary =
+        ((hmac[offset] & 0x7f) << 24) |
+        ((hmac[offset + 1] & 0xff) << 16) |
+        ((hmac[offset + 2] & 0xff) << 8) |
+        (hmac[offset + 3] & 0xff);
+      return String(binary % 1000000).padStart(6, '0');
+    }
+
+    /* =========================================================================
+       3. UI NAVIGATION, THEME & BILINGUAL (EN / BN) SUPPORT
+       ========================================================================= */
+    const TRANSLATIONS = {
+      EN: {
+        greeting: 'Hi, Md Zahidul',
+        admin_btn: 'Admin',
+        credits_remaining: 'Credits Remaining',
+        total_created: 'Total Created',
+        daily_quota: 'Daily Quota',
+        resets_in: 'Resets in',
+        all_pages_tools: 'All Pages & Tools',
+        tap_any_box: 'Tap any box',
+        tool_meta: 'Meta Creator',
+        tool_ig: 'Instagram Automation',
+        tool_2fa: '2FA Authenticator',
+        tool_vault: 'Accounts Vault',
+        tool_cookie: 'Meta Cookie',
+        tool_keys: 'Access Keys',
+        tool_gsheet: 'Google Sheet',
+        tool_redeem: 'Redeem Code',
+        tool_profile: 'Profile & Theme',
+        tool_help: 'Help & Support',
+        tool_support: 'Support',
+        tool_dev: 'Developer',
+        nav_home: 'Home',
+        nav_create: 'Create',
+        nav_account: 'Account',
+        nav_profile: 'Profile',
+        create_hub: 'Automation Runner',
+        vault_title: 'Accounts Vault',
+        profile_settings: 'Profile, Theme & Proxy'
+      },
+      BN: {
+        greeting: 'হাই, মোঃ জাহিদুল',
+        admin_btn: 'অ্যাডমিন',
+        credits_remaining: 'অবশিষ্ট ক্রেডিট',
+        total_created: 'মোট তৈরি',
+        daily_quota: 'দৈনিক কোটা',
+        resets_in: 'রিসেট হবে',
+        all_pages_tools: 'সকল পেজ ও টুলস',
+        tap_any_box: 'যেকোনো বক্সে ট্যাপ করুন',
+        tool_meta: 'মেটা ক্রিয়েটর',
+        tool_ig: 'ইনস্টাগ্রাম অটোমেশন',
+        tool_2fa: '২এফএ অথেনটিকেটর',
+        tool_vault: 'অ্যাকাউন্টস ভল্ট',
+        tool_cookie: 'মেটা কুকি',
+        tool_keys: 'অ্যাক্সেস কী',
+        tool_gsheet: 'গুগল শিট',
+        tool_redeem: 'রিডিম কোড',
+        tool_profile: 'প্রোফাইল ও থিম',
+        tool_help: 'হেল্প ও সাপোর্ট',
+        tool_support: 'সাপোর্ট',
+        tool_dev: 'ডেভেলপার',
+        nav_home: 'হোম',
+        nav_create: 'ক্রিয়েট',
+        nav_account: 'অ্যাকাউন্ট',
+        nav_profile: 'প্রোফাইল',
+        create_hub: 'অটোমেশন রানার',
+        vault_title: 'অ্যাকাউন্টস ভল্ট',
+        profile_settings: 'প্রোফাইল, থিম ও প্রক্সি'
+      }
+    };
+
+    function applyTheme() {
+      const html = document.documentElement;
+      if (appState.theme === 'dark') html.classList.add('dark');
+      else html.classList.remove('dark');
+    }
+
+    function toggleTheme() {
+      appState.theme = appState.theme === 'dark' ? 'light' : 'dark';
+      applyTheme();
+      saveState();
+      showToast(appState.theme === 'dark' ? 'Dark Mode enabled' : 'Light Mode enabled');
+    }
+
+    function applyLanguage() {
+      const dict = TRANSLATIONS[appState.lang] || TRANSLATIONS.EN;
+      document.getElementById('lang-toggle-btn').textContent = appState.lang;
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (dict[key]) el.textContent = dict[key];
+      });
+    }
+
+    function toggleLanguage() {
+      appState.lang = appState.lang === 'EN' ? 'BN' : 'EN';
+      applyLanguage();
+      saveState();
+      showToast(appState.lang === 'BN' ? 'ভাষা: বাংলা সেট করা হয়েছে' : 'Language set to English');
+    }
+
+    function hideAllViews() {
+      ['view-home', 'view-create', 'view-2fa', 'view-account', 'view-profile'].forEach(id => {
+        document.getElementById(id).classList.add('hidden');
+      });
+    }
+
+    function updateNavStyles(activeTab) {
+      ['home', 'create', 'account', 'profile'].forEach(tab => {
+        const btn = document.getElementById('nav-' + tab);
+        if (tab === activeTab) {
+          btn.className = 'nav-btn flex flex-col items-center gap-0.5 px-4 py-1.5 rounded-2xl transition bg-emerald-50 dark:bg-teal-900/40 text-teal-700 dark:text-teal-300';
+        } else {
+          btn.className = 'nav-btn flex flex-col items-center gap-0.5 px-4 py-1.5 rounded-2xl transition text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300';
+        }
+      });
+    }
+
+    function switchTab(tabName) {
+      hideAllViews();
+      document.getElementById('view-' + tabName).classList.remove('hidden');
+      updateNavStyles(tabName);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      if (tabName === 'account') renderVaultList();
+    }
+
+    function openToolView(toolId) {
+      if (toolId === 'tool-2fa') {
+        hideAllViews();
+        document.getElementById('view-2fa').classList.remove('hidden');
+        updateNavStyles('home');
+        render2FAList();
+        return;
+      }
+      switchTab('create');
+      if (toolId === 'tool-meta-creator') selectAutomationModule('meta');
+      if (toolId === 'tool-ig-auto') selectAutomationModule('ig');
+      if (toolId === 'tool-meta-cookie') selectAutomationModule('cookie');
+      if (toolId === 'tool-access-keys') selectAutomationModule('keys');
+    }
+
+    /* =========================================================================
+       4. MODALS & TOAST NOTIFICATIONS
+       ========================================================================= */
+    function openModal(modalId) {
+      const backdrop = document.getElementById('modal-backdrop');
+      backdrop.classList.remove('hidden');
+      backdrop.classList.add('flex');
+      document.querySelectorAll('.modal-box').forEach(b => b.classList.add('hidden'));
+      document.getElementById(modalId).classList.remove('hidden');
+
+      if (modalId === 'modal-gsheet') {
+        document.getElementById('gsheet-enabled').checked = appState.gsheet.enabled;
+        document.getElementById('gsheet-url').value = appState.gsheet.url || '';
+        document.getElementById('gsheet-col-a').value = appState.gsheet.colA;
+        document.getElementById('gsheet-col-b').value = appState.gsheet.colB;
+        document.getElementById('gsheet-col-c').value = appState.gsheet.colC;
+        document.getElementById('gsheet-col-d').value = appState.gsheet.colD;
+      }
+    }
+
+    function closeAllModals() {
+      const backdrop = document.getElementById('modal-backdrop');
+      backdrop.classList.add('hidden');
+      backdrop.classList.remove('flex');
+    }
+
+    function showToast(message, type = 'success') {
+      const container = document.getElementById('toast-container');
+      const bg = type === 'error'
+        ? 'bg-rose-600 text-white'
+        : 'bg-slate-900 dark:bg-teal-600 text-white';
+      container.innerHTML = `
+        <div class="toast-animate px-4 py-2.5 rounded-xl text-xs font-bold shadow-xl ${bg} flex items-center gap-2 whitespace-nowrap">
+          <span>${message}</span>
+        </div>
+      `;
+      clearTimeout(window._toastTimer);
+      window._toastTimer = setTimeout(() => { container.innerHTML = ''; }, 2400);
+    }
+
+    // Reliable Clipboard Copy (works inside iFrames & Android WebViews)
+    function copyText(text, successMsg = 'Copied to clipboard!') {
+      if (!text || text === '------') {
+        showToast('Nothing to copy', 'error');
+        return;
+      }
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      textarea.style.position = 'fixed';
+      textarea.style.opacity = '0';
+      document.body.appendChild(textarea);
+      textarea.focus();
+      textarea.select();
+      try {
+        document.execCommand('copy');
+        showToast(successMsg);
+      } catch (err) {
+        showToast('Copy failed', 'error');
+      }
+      document.body.removeChild(textarea);
+    }
+
+    /* =========================================================================
+       5. LIVE 2FA AUTHENTICATOR & ACCOUNTS VAULT
+       ========================================================================= */
+    async function updateQuickTotp() {
+      const secret = document.getElementById('quick-2fa-secret').value.trim();
+      const code = await generateTOTP(secret);
+      document.getElementById('quick-2fa-code').textContent = code;
+    }
+
+    function copyQuickTotp() {
+      const code = document.getElementById('quick-2fa-code').textContent;
+      copyText(code, `2FA Code ${code} copied!`);
+    }
+
+    function save2FAKey() {
+      const secret = document.getElementById('quick-2fa-secret').value.trim();
+      const label = document.getElementById('save-2fa-label').value.trim() || 'Untitled 2FA';
+      if (!base32ToBytes(secret)) {
+        showToast('Enter a valid Base32 secret key', 'error');
+        return;
+      }
+      appState.saved2FA.unshift({ id: 'k_' + Date.now(), label, secret: secret.replace(/\s+/g, '').toUpperCase() });
+      saveState();
+      document.getElementById('save-2fa-label').value = '';
+      render2FAList();
+      showToast('2FA key saved!');
+    }
+
+    function delete2FAKey(id) {
+      appState.saved2FA = appState.saved2FA.filter(k => k.id !== id);
+      saveState();
+      render2FAList();
+      showToast('2FA key removed');
+    }
+
+    async function render2FAList() {
+      const container = document.getElementById('saved-2fa-list');
+      if (!appState.saved2FA.length) {
+        container.innerHTML = `<div class="text-center py-6 text-xs text-slate-400">No saved 2FA keys yet.</div>`;
+        return;
+      }
+      const itemsHtml = await Promise.all(appState.saved2FA.map(async item => {
+        const code = await generateTOTP(item.secret);
+        return `
+          <div class="bg-white dark:bg-slate-800 rounded-2xl p-3.5 border border-slate-200/80 dark:border-slate-700 shadow-card flex items-center justify-between">
+            <div class="min-w-0 pr-2">
+              <p class="text-xs font-bold text-slate-800 dark:text-white truncate">${escapeHtml(item.label)}</p>
+              <p class="text-lg font-mono font-extrabold tracking-widest text-teal-600 dark:text-cyan-400 mt-0.5">${code}</p>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <button onclick="copyText('${code}', 'Copied ${code}!')"
+                class="px-3 py-1.5 rounded-xl bg-teal-50 dark:bg-teal-900/40 text-teal-700 dark:text-teal-300 text-[11px] font-bold hover:bg-teal-100 transition">
+                Copy
+              </button>
+              <button onclick="delete2FAKey('${item.id}')"
+                class="p-1.5 rounded-xl bg-rose-50 dark:bg-rose-900/30 text-rose-500 hover:bg-rose-100 transition" aria-label="Delete">
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+              </button>
+            </div>
+          </div>
+        `;
+      }));
+      container.innerHTML = itemsHtml.join('');
+    }
+
+    function addVaultAccount() {
+      const label = document.getElementById('vault-in-label').value.trim();
+      const pass = document.getElementById('vault-in-pass').value.trim();
+      const secret = document.getElementById('vault-in-2fa').value.trim().replace(/\s+/g, '').toUpperCase();
+      if (!label || !pass) {
+        showToast('Label and Password are required', 'error');
+        return;
+      }
+      appState.vault.unshift({ id: 'v_' + Date.now(), label, pass, secret });
+      appState.totalCreated += 1;
+      appState.dailyQuotaUsed += 1;
+      saveState();
+      document.getElementById('vault-in-label').value = '';
+      document.getElementById('vault-in-pass').value = '';
+      document.getElementById('vault-in-2fa').value = '';
+      closeAllModals();
+      renderVaultList();
+      showToast('Account saved to Vault!');
+    }
+
+    function deleteVaultAccount(id) {
+      appState.vault = appState.vault.filter(v => v.id !== id);
+      saveState();
+      renderVaultList();
+      showToast('Account deleted');
+    }
+
+    async function renderVaultList() {
+      const container = document.getElementById('vault-list');
+      const query = (document.getElementById('vault-search')?.value || '').toLowerCase();
+      const filtered = appState.vault.filter(v => v.label.toLowerCase().includes(query));
+
+      if (!filtered.length) {
+        container.innerHTML = `<div class="text-center py-8 text-xs text-slate-400">No saved accounts found.</div>`;
+        return;
+      }
+
+      const cards = await Promise.all(filtered.map(async acc => {
+        const code = acc.secret ? await generateTOTP(acc.secret) : null;
+        return `
+          <div class="bg-white dark:bg-slate-800 rounded-2xl p-3.5 border border-slate-200/80 dark:border-slate-700 shadow-card space-y-2.5">
+            <div class="flex items-start justify-between gap-2">
+              <div class="min-w-0">
+                <p class="text-xs font-extrabold text-slate-900 dark:text-white truncate">${escapeHtml(acc.label)}</p>
+                <p class="text-[11px] font-mono text-slate-500 dark:text-slate-400 truncate mt-0.5">${escapeHtml(acc.pass)}</p>
+              </div>
+              <button onclick="deleteVaultAccount('${acc.id}')" class="text-rose-500 hover:text-rose-600 p-1">
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/></svg>
+              </button>
+            </div>
+            <div class="flex items-center justify-between pt-2 border-t border-slate-100 dark:border-slate-700/70">
+              ${code
+                ? `<div class="flex items-center gap-2">
+                     <span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-cyan-50 dark:bg-cyan-900/40 text-cyan-700 dark:text-cyan-300">2FA</span>
+                     <span class="text-sm font-mono font-extrabold tracking-widest text-teal-600 dark:text-cyan-400">${code}</span>
+                   </div>`
+                : `<span class="text-[10px] text-slate-400">No 2FA Secret</span>`
+              }
+              <div class="flex gap-1.5">
+                <button onclick="copyText('${escapeAttr(acc.label)}', 'ID copied!')" class="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-700 text-[10px] font-bold">ID</button>
+                <button onclick="copyText('${escapeAttr(acc.pass)}', 'Password copied!')" class="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-700 text-[10px] font-bold">Pass</button>
+                ${code ? `<button onclick="copyText('${code}', '2FA ${code} copied!')" class="px-2.5 py-1 rounded-lg bg-teal-600 text-white text-[10px] font-bold">2FA</button>` : ''}
+              </div>
+            </div>
+          </div>
+        `;
+      }));
+      container.innerHTML = cards.join('');
+    }
+
+    /* =========================================================================
+       6. AUTOMATION RUNNER, GOOGLE SHEET, REDEEM & PROFILE SETTINGS
+       ========================================================================= */
+    function selectAutomationModule(mod) {
+      activeModule = mod;
+      const titles = {
+        meta: 'Meta Creator — Fast Batch',
+        ig: 'Instagram Automation — Login & Col B',
+        cookie: 'Meta Cookie — Multi-Box RR',
+        keys: 'Access Keys — Multi-Box RR'
+      };
+      document.getElementById('active-module-title').textContent = titles[mod];
+      document.querySelectorAll('.mod-btn').forEach(btn => {
+        btn.className = 'mod-btn p-2.5 rounded-xl border text-left transition bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300';
+      });
+      document.getElementById('mod-btn-' + mod).className =
+        'mod-btn p-2.5 rounded-xl border text-left transition bg-teal-50 dark:bg-teal-900/30 border-teal-400 text-teal-800 dark:text-teal-200';
+    }
+
+    function appendConsole(line) {
+      const box = document.getElementById('auto-console');
+      const ts = new Date().toLocaleTimeString('en-GB', { hour12: false });
+      box.textContent += `\n[${ts}] ${line}`;
+      box.scrollTop = box.scrollHeight;
+    }
+
+    function clearConsoleLogs() {
+      document.getElementById('auto-console').textContent = '[READY] Console cleared.';
+    }
+
+    async function runAutomationJob() {
+      const apiUrl = document.getElementById('auto-api-url').value.trim() || appState.backendUrl;
+      const batch = parseInt(document.getElementById('auto-batch-count').value, 10) || 1;
+      const col = document.getElementById('auto-col-target').value;
+      const useProxy = document.getElementById('auto-use-proxy').checked;
+      const rawData = document.getElementById('auto-input-data').value.trim();
+
+      const payload = {
+        module: activeModule,
+        batch,
+        sheetColumn: col,
+        proxy: useProxy ? `${appState.proxyType}://${appState.proxyString}` : null,
+        dataLines: rawData ? rawData.split('\n') : []
+      };
+
+      appendConsole(`Starting [${activeModule.toUpperCase()}] (Batch: ${batch}, Target: ${col})...`);
+
+      if (apiUrl) {
+        appendConsole(`POST -> ${apiUrl}`);
+        try {
+          const res = await fetch(apiUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+          const text = await res.text();
+          appendConsole(`HTTP ${res.status}: ${text.slice(0, 160)}`);
+          showToast('Backend task response received');
+        } catch (err) {
+          appendConsole(`ERROR: ${err.message} (Check CORS or server status)`);
+          showToast('Backend connection failed', 'error');
+        }
+      } else {
+        appendConsole('No Python API URL set — running local UI simulation...');
+        await new Promise(r => setTimeout(r, 500));
+        appendConsole(`Prepared JSON payload (${JSON.stringify(payload).length} bytes).`);
+        await new Promise(r => setTimeout(r, 400));
+        appState.dailyQuotaUsed += 1;
+        saveState();
+        appendConsole('DONE: Workflow test complete. Connect FastAPI/Flask URL for live execution.');
+        showToast('Task simulation completed!');
+      }
+    }
+
+    function saveGSheetSettings() {
+      appState.gsheet = {
+        enabled: document.getElementById('gsheet-enabled').checked,
+        url: document.getElementById('gsheet-url').value.trim(),
+        colA: document.getElementById('gsheet-col-a').value.trim() || 'Col A',
+        colB: document.getElementById('gsheet-col-b').value.trim() || 'Col B',
+        colC: document.getElementById('gsheet-col-c').value.trim() || 'Col C',
+        colD: document.getElementById('gsheet-col-d').value.trim() || 'Col D'
+      };
+      saveState();
+      closeAllModals();
+      showToast('Google Sheet settings saved!');
+    }
+
+    async function testGSheetSync() {
+      const url = document.getElementById('gsheet-url').value.trim();
+      if (!url) {
+        showToast('Paste your Apps Script Web App URL first', 'error');
+        return;
+      }
+      try {
+        await fetch(url, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            colA: 'TEST_UID_01',
+            colB: 'DEMO_PASS',
+            colC: 'JBSWY3DPEHPK3PXP',
+            colD: 'SYNC_OK'
+          })
+        });
+        showToast('Sample JSON sent to Google Sheet!');
+      } catch (e) {
+        showToast('Failed to reach Apps Script URL', 'error');
+      }
+    }
+
+    function submitRedeemCode() {
+      const code = document.getElementById('redeem-input').value.trim().toUpperCase();
+      if (code === 'CYBEREO-VIP' || code === 'FREE-500') {
+        appState.dailyQuotaMax += 5000;
+        saveState();
+        document.getElementById('redeem-input').value = '';
+        closeAllModals();
+        showToast('Voucher redeemed! +5,000 Daily Quota added');
+      } else {
+        showToast('Invalid voucher code. Try CYBEREO-VIP', 'error');
+      }
+    }
+
+    function saveProfileSettings() {
+      appState.proxyType = document.getElementById('proxy-type').value;
+      appState.proxyString = document.getElementById('proxy-string').value.trim();
+      appState.backendUrl = document.getElementById('profile-backend-url').value.trim();
+      document.getElementById('auto-api-url').value = appState.backendUrl;
+      saveState();
+      showToast('Network & Proxy settings saved!');
+    }
+
+    function exportBackupJson() {
+      const backup = JSON.stringify({ saved2FA: appState.saved2FA, vault: appState.vault }, null, 2);
+      copyText(backup, 'Vault & 2FA JSON copied to clipboard!');
+    }
+
+    /* =========================================================================
+       7. LIVE TIMERS, BADGES & INITIALIZATION
+       ========================================================================= */
+    function updateDashboardBadges() {
+      document.getElementById('total-created-display').textContent = `${appState.totalCreated} Acc`;
+      document.getElementById('daily-quota-used').textContent = appState.dailyQuotaUsed;
+      document.getElementById('daily-quota-max').textContent = appState.dailyQuotaMax;
+      document.getElementById('badge-2fa-count').textContent = appState.saved2FA.length;
+      document.getElementById('badge-vault-count').textContent = appState.vault.length;
+
+      const pct = Math.min(100, Math.max(8, (appState.dailyQuotaUsed / Math.min(appState.dailyQuotaMax, 100)) * 100));
+      document.getElementById('quota-progress-bar').style.width = `${pct}%`;
+
+      const gBadge = document.getElementById('badge-gsheet-status');
+      if (appState.gsheet.enabled) {
+        gBadge.textContent = 'ON';
+        gBadge.className = 'absolute top-2 right-2 px-1.5 py-0.5 rounded-md bg-emerald-100 dark:bg-emerald-900/60 text-emerald-700 dark:text-emerald-300 text-[9px] font-extrabold';
+      } else {
+        gBadge.textContent = 'OFF';
+        gBadge.className = 'absolute top-2 right-2 px-1.5 py-0.5 rounded-md bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-[9px] font-extrabold';
+      }
+
+      const pill = document.getElementById('backend-status-pill');
+      if (appState.backendUrl) {
+        pill.textContent = 'API Linked';
+        pill.className = 'px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300';
+      } else {
+        pill.textContent = 'Local Demo';
+        pill.className = 'px-2.5 py-1 rounded-full text-[10px] font-bold bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300';
+      }
+    }
+
+    function escapeHtml(str) {
+      return String(str).replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]));
+    }
+    function escapeAttr(str) {
+      return String(str).replace(/'/g, "\\'").replace(/"/g, '&quot;');
+    }
+
+    // Tick every second: Quota Reset Countdown + Live 30s TOTP Refresh
+    let lastTotpStep = -1;
+    function startLiveClock() {
+      const tick = () => {
+        const now = new Date();
+        // Countdown until midnight
+        const midnight = new Date(now);
+        midnight.setHours(24, 0, 0, 0);
+        const diffSec = Math.max(0, Math.floor((midnight - now) / 1000));
+        const hrs = Math.floor(diffSec / 3600);
+        const mins = Math.floor((diffSec % 3600) / 60);
+        const secs = diffSec % 60;
+        document.getElementById('quota-countdown').textContent =
+          `${String(hrs).padStart(2, '0')}h ${String(mins).padStart(2, '0')}m ${String(secs).padStart(2, '0')}s`;
+
+        // 30s TOTP timer
+        const epoch = Math.floor(Date.now() / 1000);
+        const remaining = 30 - (epoch % 30);
+        const step = Math.floor(epoch / 30);
+
+        const timerText = document.getElementById('totp-timer-text');
+        const timerBar = document.getElementById('totp-progress-bar');
+        if (timerText) timerText.textContent = remaining;
+        if (timerBar) timerBar.style.width = `${(remaining / 30) * 100}%`;
+
+        if (step !== lastTotpStep) {
+          lastTotpStep = step;
+          updateQuickTotp();
+          if (!document.getElementById('view-2fa').classList.contains('hidden')) render2FAList();
+          if (!document.getElementById('view-account').classList.contains('hidden')) renderVaultList();
+        }
+      };
+      tick();
+      setInterval(tick, 1000);
+    }
+
+    // Boot Application
+    window.addEventListener('DOMContentLoaded', () => {
+      applyTheme();
+      applyLanguage();
+      updateDashboardBadges();
+      switchTab('home');
+
+      // Populate saved profile & backend inputs
+      document.getElementById('proxy-type').value = appState.proxyType || 'http';
+      document.getElementById('proxy-string').value = appState.proxyString || '';
+      document.getElementById('profile-backend-url').value = appState.backendUrl || '';
+      document.getElementById('auto-api-url').value = appState.backendUrl || '';
+
+      // Pre-fill demo secret in Quick 2FA input so it works immediately
+      document.getElementById('quick-2fa-secret').value = 'JBSWY3DPEHPK3PXP';
+      startLiveClock();
+    });
+  </script>
+</body>
+</html>
+```
