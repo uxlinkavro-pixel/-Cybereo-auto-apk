@@ -1,0 +1,10 @@
+{
+  "name": "cybereo-auto-tools",
+  "version": "4.0.0",
+  "description": "CyberEO Auto Tools Suite",
+  "dependencies": {
+    "@capacitor/android": "^6.1.0",
+    "@capacitor/cli": "^6.1.0",
+    "@capacitor/core": "^6.1.0"
+  }
+}
