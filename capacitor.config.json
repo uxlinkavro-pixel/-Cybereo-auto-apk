@@ -1,0 +1,9 @@
+{
+  "appId": "com.cybereo.autotools",
+  "appName": "CyberEO Auto Tools",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "http",
+    "cleartext": true
+  }
+}
